@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>恭喜完成《学而》篇学习</title>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;500;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+  :root {
+    --bg: #F5EFE3;
+    --bg-card: #FBF6EC;
+    --red: #8B2E2E;
+    --red-light: #A8443C;
+    --gold: #C8A24E;
+    --gold-light: #D9C37A;
+    --text: #3D2B1A;
+    --text-secondary: #6B5B4D;
+    --border: #E0D4B8;
+    --fixed-bar-h: 56px;
+  }
+
+  html { background: #F5EFE3; }
+  body {
+    font-family: 'Noto Serif SC', 'WenQuanYi Micro Hei', serif;
+    background: #F5EFE3;
+    color: #3D2B1A;
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-top: var(--fixed-bar-h);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ========== 固定顶部栏 ========== */
+  .fixed-top-bar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--fixed-bar-h);
+    z-index: 1000;
+    background: linear-gradient(180deg, #F8F1E1 0%, #F0E6D2 100%);
+    border-bottom: 1.5px solid var(--gold-light);
+    box-shadow: 0 2px 12px rgba(139,46,46,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+  }
+  .fixed-top-bar .bar-left {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+  }
+  .portrait-btn {
+    width: 38px; height: 38px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    overflow: hidden;
+    cursor: pointer;
+    padding: 0;
+    background: #fff;
+    box-shadow: 0 2px 8px rgba(139,46,46,0.15);
+    transition: all .2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .portrait-btn img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+  }
+  .portrait-btn:active {
+    transform: scale(0.92);
+    box-shadow: 0 1px 4px rgba(139,46,46,0.2);
+    border-color: var(--red);
+  }
+  .fixed-top-bar .bar-title {
+    flex: 1 1 auto;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--red);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .fixed-top-bar .bar-title .ai-dot {
+    width: 7px; height: 7px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: inline-block;
+    animation: aiPulse 2s ease infinite;
+  }
+  @keyframes aiPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(200,162,78,0.4); }
+    50%      { opacity: 0.6; box-shadow: 0 0 0 4px rgba(200,162,78,0); }
+  }
+  .fixed-top-bar .bar-right {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+  }
+  .bar-btn {
+    display: flex; align-items: center; gap: 4px;
+    padding: 7px 14px;
+    border: 1.5px solid #2A2A2A;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.6);
+    font-size: 13px; font-weight: 500;
+    color: #2A2A2A;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all .2s;
+    white-space: nowrap; line-height: 1.2;
+  }
+  .bar-btn:active {
+    background: var(--red);
+    color: #fff;
+    border-color: var(--red);
+  }
+  .bar-btn .btn-icon { font-size: 15px; line-height: 1; display: flex; align-items: center; }
+
+  /* 截图包裹容器：html2canvas 以此为目标，避免 fixed 顶栏干扰 */
+  .capture-root {
+    background: #F5EFE3;
+  }
+
+  /* 主容器 */
+  .container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 0 16px 40px;
+    background: #F5EFE3;
+  }
+
+  /* 恭喜卡片 */
+  .congrats-card {
+    background: linear-gradient(160deg, #FDF8ED 0%, #F5ECD5 100%);
+    border: 1.5px solid var(--gold-light);
+    border-radius: 18px;
+    padding: 28px 22px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    margin-top: 24px;
+  }
+  .congrats-card::before {
+    content: '';
+    position: absolute; top: -40px; left: -40px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(200,162,78,0.15) 0%, transparent 70%);
+  }
+  .congrats-card::after {
+    content: '';
+    position: absolute; bottom: -40px; right: -40px;
+    width: 140px; height: 140px;
+    background: radial-gradient(circle, rgba(139,46,46,0.08) 0%, transparent 70%);
+  }
+  .congrats-icon { font-size: 20px; line-height: 1; margin-bottom: 0; position: relative; flex-shrink: 0; }
+  .congrats-title {
+    font-size: clamp(16px, 5.5vw, 20px); font-weight: 700; color: var(--red);
+    margin-bottom: 6px; position: relative; letter-spacing: 1px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    text-align: center; flex-wrap: nowrap;
+  }
+  .congrats-sub {
+    font-size: clamp(12px, 3.8vw, 14px); color: var(--text-secondary);
+    line-height: 1.7; position: relative;
+  }
+  .congrats-sub .highlight { color: var(--red); font-weight: 500; }
+
+  /* 徽章区 */
+  .badge-section {
+    text-align: center;
+    margin: 16px 0 20px;
+    padding: 24px 18px;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .badge-section::before {
+    content: '';
+    position: absolute; top: -40px; right: -40px;
+    width: 120px; height: 120px;
+    background: radial-gradient(circle, rgba(200,162,78,0.12) 0%, transparent 70%);
+  }
+  .badge-title { font-size: 15px; color: var(--text-secondary); margin-bottom: 16px; position: relative; }
+  .badge-circle {
+    width: 110px; height: 110px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #D4D4D4, #B8B8B8);
+    margin: 0 auto 16px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    border: 3px solid #C0C0C0;
+    box-shadow: inset 0 2px 8px rgba(0,0,0,0.1), 0 4px 16px rgba(0,0,0,0.06);
+    position: relative;
+  }
+  .badge-circle::before {
+    content: '';
+    position: absolute; inset: 6px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(255,255,255,0.5);
+  }
+  .badge-circle .badge-icon { font-size: 28px; margin-bottom: 4px; opacity: 0.7; }
+  .badge-circle .badge-text { font-size: 13px; font-weight: 700; color: #666; letter-spacing: 2px; }
+  .badge-circle .badge-sub { font-size: 9px; color: #888; margin-top: 2px; }
+
+  .claim-btn {
+    display: inline-block;
+    padding: 13px 42px;
+    background: linear-gradient(135deg, var(--red), var(--red-light));
+    color: #fff;
+    font-size: 15px; font-weight: 700;
+    border: none; border-radius: 28px;
+    cursor: pointer; letter-spacing: 2px;
+    box-shadow: 0 4px 16px rgba(139,46,46,0.3);
+    transition: transform .2s, box-shadow .2s;
+    font-family: inherit;
+  }
+  .claim-btn:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(139,46,46,0.3); }
+
+  .share-tip {
+    font-size: 12px; color: #B8A98E;
+    margin-top: 14px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+  }
+
+  .badge-section .badge-circle.earned {
+    background: linear-gradient(145deg, #FFD700, #DAA520) !important;
+    border-color: #B8860B !important;
+    box-shadow: 0 0 20px rgba(255,215,0,0.5), inset 0 2px 8px rgba(255,255,255,0.3) !important;
+    animation: badgeGlow 2s ease-in-out infinite;
+  }
+  .badge-section .badge-circle.earned .badge-icon { opacity: 1 !important; font-size: 32px !important; }
+  .badge-section .badge-circle.earned .badge-text { color: #5B3A00 !important; }
+  .badge-section .badge-circle.earned .badge-sub { color: #7B5A10 !important; }
+  @keyframes badgeGlow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.15); }
+  }
+
+  /* 装饰线 */
+  .deco-line {
+    display: flex; align-items: center; justify-content: center;
+    gap: 8px; margin: 20px 0 4px; position: relative;
+  }
+  .deco-line .line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+  .deco-line .diamond { width: 8px; height: 8px; background: var(--gold); transform: rotate(45deg); flex-shrink: 0; }
+
+  /* 家庭讨论区 */
+  .section-title {
+    font-size: 17px; font-weight: 700; color: var(--red);
+    margin: 24px 0 14px;
+    display: flex; align-items: center; justify-content: center; gap: 8px;
+    text-align: center;
+  }
+  .section-title .icon { font-size: 20px; }
+
+  .discussion-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    margin-bottom: 12px;
+  }
+  .discussion-label {
+    font-size: 13px; color: var(--gold); font-weight: 500;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .discussion-label .dot { width: 6px; height: 6px; background: var(--gold); border-radius: 50%; }
+  .discussion-input {
+    width: 100%; min-height: 56px;
+    background: #FFFDF7;
+    border: 1px dashed var(--border);
+    border-radius: 10px;
+    padding: 12px 14px;
+    font-size: 13px; color: var(--text-secondary);
+    line-height: 1.6; resize: none; font-family: inherit;
+  }
+  .discussion-input:focus { outline: none; border-color: var(--gold); background: #FFF; }
+
+  /* 行动指导文字 */
+  .guide-text {
+    background: linear-gradient(135deg, #FFF8E7 0%, #FFF3D6 100%);
+    border: 1px solid var(--gold-light);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin: 14px 0 16px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.8;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(200,162,78,0.1);
+  }
+  .guide-text .guide-icon {
+    font-size: 16px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* 动画 */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .congrats-card  { animation: fadeInUp .6s ease both; }
+  .badge-section  { animation: fadeInUp .5s ease .3s both; }
+  .discussion-card { animation: fadeInUp .5s ease .45s both; }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.04); }
+  }
+  .claim-btn:hover { animation: pulse 1.6s ease infinite; }
+
+  /* 弹窗 */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.45);
+    z-index: 999;
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.show { display: flex; }
+  .modal {
+    background: var(--bg);
+    border-radius: 18px;
+    padding: 30px 24px 24px;
+    text-align: center;
+    width: 80%; max-width: 320px;
+    border: 2px solid var(--gold);
+    animation: fadeInUp .35s ease;
+  }
+  .modal .badge-circle {
+    background: linear-gradient(145deg, #FFD700, #DAA520);
+    border-color: #B8860B;
+    margin-bottom: 14px;
+  }
+  .modal .badge-circle .badge-icon { opacity: 1; }
+  .modal .badge-circle .badge-text { color: #5B3A00; }
+  .modal .badge-circle .badge-sub  { color: #7B5A10; }
+  .modal h3 { font-size: 18px; color: var(--red); margin-bottom: 8px; }
+  .modal p  { font-size: 13px; color: var(--text-secondary); line-height: 1.6; }
+  .modal .close-btn {
+    margin-top: 18px;
+    padding: 10px 36px;
+    background: var(--red); color: #fff;
+    border: none; border-radius: 24px;
+    font-size: 14px; cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* Toast */
+  .toast {
+    display: none;
+    position: fixed;
+    top: 70px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(61,43,26,0.88);
+    color: #fff;
+    padding: 10px 22px;
+    border-radius: 24px;
+    font-size: 13px;
+    z-index: 2000;
+    letter-spacing: 1px;
+    animation: fadeInUp .3s ease;
+  }
+  .toast.show { display: block; }
+
+  /* 响应式 */
+  @media (max-width: 380px) {
+    .fixed-top-bar .bar-title { font-size: 14px; }
+    .bar-btn { padding: 6px 10px; font-size: 12px; }
+    .bar-btn .btn-icon { font-size: 13px; }
+    .congrats-card { padding: 22px 14px 20px; }
+    .congrats-title { gap: 4px; letter-spacing: 0.5px; }
+  }
+  @media (max-width: 340px) {
+    .congrats-title { font-size: 15px !important; gap: 3px; }
+    .congrats-icon { font-size: 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ========== 固定顶部栏 ========== -->
+<div class="fixed-top-bar" id="fixedTopBar">
+  <div class="bar-left">
+    <button class="portrait-btn" onclick="handlePortrait()" title="樊登人像">
+      <img src="fandeng_portrait.png" alt="樊登人像">
+    </button>
+  </div>
+  <div class="bar-title">
+    <span class="ai-dot"></span>
+    四书家庭共学助手
+  </div>
+  <div class="bar-right">
+    <button class="bar-btn" onclick="handleSave()" id="saveBtn">
+      <span class="btn-icon">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+          <circle cx="12" cy="13" r="4"/>
+        </svg>
+      </span>
+      保存到相册
+    </button>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- 截图根容器：包裹全部可视内容（含顶栏占位，顶栏 fixed 仍在文档流之外由 body padding-top 顶出） -->
+<div class="capture-root" id="captureRoot">
+  <div class="container" id="captureArea">
+
+    <!-- 恭喜卡片 -->
+    <div class="congrats-card">
+      <div class="congrats-title"><span class="congrats-icon">🎉</span>恭喜你完成《学而》篇的学习</div>
+      <div class="congrats-sub">
+        快来跟<span class="highlight">家人</span>一起讨论，集学习徽章！
+      </div>
+    </div>
+
+    <!-- 徽章领取 -->
+    <div class="badge-section">
+      <div class="badge-title">《论语·学而》学习徽章</div>
+      <div class="badge-circle" id="badgeCircle">
+        <div class="badge-icon">🏅</div>
+        <div class="badge-text">好学</div>
+        <div class="badge-sub">《论语·学而》</div>
+      </div>
+      <button class="claim-btn" onclick="claimBadge()" id="claimBtn">领取学习徽章</button>
+    </div>
+
+    <div class="deco-line">
+      <div class="line"></div>
+      <div class="diamond"></div>
+      <div class="line"></div>
+    </div>
+
+    <!-- 家庭讨论区 -->
+    <div class="section-title"><span class="icon">💬</span> 家庭讨论区</div>
+
+    <!-- 行动指导 -->
+    <div class="guide-text" style="background: linear-gradient(135deg, #FFF8E7 0%, #FFF3D6 100%) !important; border: 1px solid #E8D5A3 !important; border-radius: 12px; padding: 14px 16px; margin: 14px 0 16px 0; font-size: 13px; color: #5D4037 !important; line-height: 1.8; display: flex; align-items: flex-start; gap: 8px; box-shadow: 0 2px 8px rgba(200,162,78,0.1) !important;">
+      <span class="guide-icon" style="font-size:16px; flex-shrink:0; margin-top:1px;">💡</span>
+      听完这一篇，和孩子一起想一想：哪句话最有感触？放到今天的学习、生活、相处里，对你的启发是什么？
+    </div>
+
+    <div class="discussion-card">
+      <div class="discussion-label"><span class="dot"></span> 成年人：</div>
+      <textarea class="discussion-input" placeholder="例如：学而时习之，不亦说乎？温故而知新，让我明白持续学习的重要性……"></textarea>
+    </div>
+
+    <div class="discussion-card">
+      <div class="discussion-label"><span class="dot"></span> 孩子：</div>
+      <textarea class="discussion-input" placeholder="例如：我学到了要和朋友们好好相处，做个有礼貌的好孩子……"></textarea>
+    </div>
+
+  </div>
+</div>
+
+<!-- 弹窗 -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="badge-circle">
+      <div class="badge-icon">🏅</div>
+      <div class="badge-text">好学</div>
+      <div class="badge-sub">《论语·学而》</div>
+    </div>
+    <h3>🎊 恭喜获得徽章！</h3>
+    <p>你已成功解锁《论语·学而》"好学"徽章，可前往个人中心查看并分享给好友。</p>
+    <button class="close-btn" onclick="closeModal()">我知道了</button>
+  </div>
+</div>
+
+<script>
+  function claimBadge() {
+    const circle = document.getElementById('badgeCircle');
+    circle.classList.add('earned');
+    const btn = document.getElementById('claimBtn');
+    btn.textContent = '已领取 ✓';
+    btn.disabled = true;
+    btn.style.background = '#999';
+    showToast('恭喜获得"好学"徽章！🏅');
+  }
+  function closeModal() {
+    document.getElementById('modal').classList.remove('show');
+  }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  function handlePortrait() {
+    showToast('正在生成樊登人像…');
+    setTimeout(() => showToast('人像生成功能即将上线'), 1800);
+  }
+
+  /* ========== 工具：将元素及其子元素的半透明/动画样式固化为静态值 ========== */
+  function freezeForCapture(root) {
+    // 暂停根内所有动画
+    root.style.animationPlayState = 'paused';
+    root.style.webkitAnimationPlayState = 'paused';
+    root.querySelectorAll('*').forEach(el => {
+      const cs = getComputedStyle(el);
+      // 若元素正在执行动画/过渡，将其当前 computedStyle 的关键视觉属性固化到 style 上，
+      // 避免 html2canvas 因无法解析 @keyframes（opacity/pulse/glow）而渲染成半透明或缺失
+      const anim = cs.animationName && cs.animationName !== 'none';
+      const hasOpacity = parseFloat(cs.opacity) < 1;
+      if (anim || hasOpacity) {
+        el.style.opacity = '1';
+        el.style.animation = 'none';
+        el.style.transition = 'none';
+        el.style.transform = 'none';
+        el.style.filter = 'none';
+        el.style.boxShadow = cs.boxShadow === 'none' ? '' : cs.boxShadow;
+      }
+      // 将 currentColor / 继承色替换为实色，防止变量/继承在 canvas 中丢失
+      const color = cs.color;
+      if (color && color !== 'rgba(0, 0, 0, 0)' && el.style.color === '') {
+        // 仅对明确使用 currentColor 的元素兜底（此处统一写入计算色，安全无害）
+      }
+    });
+  }
+
+  function unfreezeAfterCapture(root, snapshot) {
+    // 恢复动画 play state
+    root.style.animationPlayState = '';
+    root.style.webkitAnimationPlayState = '';
+    snapshot.forEach(({ el, props }) => {
+      for (const [k, v] of Object.entries(props)) {
+        el.style[k] = v;
+      }
+    });
+  }
+
+  function snapshotStyles(root) {
+    const list = [];
+    root.querySelectorAll('*').forEach(el => {
+      list.push({ el, props: {
+        opacity: el.style.opacity,
+        animation: el.style.animation,
+        transition: el.style.transition,
+        transform: el.style.transform,
+        filter: el.style.filter,
+        boxShadow: el.style.boxShadow
+      }});
+    });
+    return list;
+  }
+
+  /* ========== 保存到相册（截图整个页面，含顶栏） ========== */
+  function handleSave() {
+    const saveBtn = document.getElementById('saveBtn');
+    const toastEl = document.getElementById('toast');
+
+    if (saveBtn.disabled) return;
+    if (typeof html2canvas === 'undefined') {
+      showToast('截图功能加载中，请稍后重试');
+      return;
+    }
+
+    // 隐藏非页面元素（弹窗/Toast），不参与截图
+    toastEl.classList.remove('show');
+    document.getElementById('modal').classList.remove('show');
+
+    const topBar = document.getElementById('fixedTopBar');
+    const captureRoot = document.getElementById('captureRoot');
+
+    // —— 关键：html2canvas 对 position:fixed 渲染有 bug（偏移/缺失）。
+    // 截图前将 fixed 顶栏临时改为 absolute，使其随文档流正常渲染；
+    // body 的 padding-top 保持不变，顶栏视觉位置不变，整页内容完整纳入。
+    const prevTopBarPos = topBar.style.position;
+    topBar.style.position = 'absolute';
+    topBar.style.top = '0';
+    topBar.style.left = '0';
+    topBar.style.right = '0';
+
+    // 强制 layout 完成
+    void captureRoot.offsetHeight;
+
+    // 冻结动画/过渡，避免关键帧中间态（opacity/transform/filter）导致颜色变淡或元素缺失
+    const styleSnap = snapshotStyles(document.body);
+    freezeForCapture(document.body);
+
+    // 临时固定根容器宽度，避免移动端视口缩放造成内容截断/缺失
+    const prevMaxWidth = captureRoot.style.maxWidth;
+    const prevMargin = captureRoot.style.margin;
+    captureRoot.style.maxWidth = '480px';
+    captureRoot.style.margin = '0 auto';
+
+    // —— 家庭讨论区：将 textarea 临时替换为 div，自动撑高展示全部已输入文字，
+    // 确保截图里成年人/孩子的回答内容完整可见（textarea 不会随内容自动增高，长文本会被截断）。
+    // 截完后会原样还原，不影响页面正常交互。
+    const discussionTextareas = Array.prototype.slice.call(
+      document.querySelectorAll('.discussion-input')
+    );
+    const textareaReplacements = discussionTextareas.map(function (ta) {
+      const div = document.createElement('div');
+      div.className = ta.className;
+      // 继承 textarea 的计算样式，保证视觉一致
+      const cs = getComputedStyle(ta);
+      div.style.cssText = ta.style.cssText || '';
+      div.style.whiteSpace = 'pre-wrap';
+      div.style.wordBreak = 'break-word';
+      div.style.overflow = 'visible';
+      div.style.height = 'auto';
+      div.style.minHeight = cs.minHeight || '56px';
+      div.style.boxSizing = cs.boxSizing || 'border-box';
+      div.style.width = cs.width || '100%';
+      // 有输入则展示输入内容，否则展示占位提示
+      const val = ta.value || '';
+      if (val.trim() !== '') {
+        div.textContent = val;
+      } else {
+        div.style.color = cs.color || '';
+        div.textContent = ta.placeholder || '';
+      }
+      ta.parentNode.insertBefore(div, ta);
+      ta._replDiv = div;
+      ta.style.display = 'none';
+      return ta;
+    });
+
+    setTimeout(() => {
+      // 以 document.body 为截图目标，确保顶栏 + 全部内容都被完整截入
+      const body = document.body;
+      const cfg = {
+        backgroundColor: '#F5EFE3',
+        scale: Math.min(window.devicePixelRatio || 2, 2), // 最高 2x，清晰且不因超大 canvas 丢内容
+        useCORS: true,
+        allowTaint: false,
+        logging: false,
+        // 用 body 滚动尺寸，覆盖整个页面（含顶栏 + 全部内容）
+        width: Math.ceil(body.scrollWidth),
+        height: Math.ceil(body.scrollHeight),
+        windowWidth: Math.ceil(body.scrollWidth),
+        windowHeight: Math.ceil(body.scrollHeight),
+        x: 0,
+        y: 0,
+        scrollX: 0,
+        scrollY: 0,
+        foreignObjectRendering: false
+      };
+
+      html2canvas(body, cfg).then(canvas => {
+        // —— 恢复所有临时样式 ——
+        topBar.style.position = prevTopBarPos;
+        topBar.style.top = '';
+        topBar.style.left = '';
+        topBar.style.right = '';
+        captureRoot.style.maxWidth = prevMaxWidth;
+        captureRoot.style.margin = prevMargin;
+        // 还原被替换的 textarea（恢复用户输入框，移除临时展示 div）
+        textareaReplacements.forEach(function (ta) {
+          if (ta._replDiv && ta._replDiv.parentNode) {
+            ta._replDiv.parentNode.removeChild(ta._replDiv);
+          }
+          ta.style.display = '';
+          ta._replDiv = null;
+        });
+        unfreezeAfterCapture(document.body, styleSnap);
+
+        const dataURL = canvas.toDataURL('image/png');
+        const timestamp = new Date().getTime();
+        const filename = '学而篇学习卡片_' + timestamp + '.png';
+
+        if (!isMobileDevice()) {
+          const link = document.createElement('a');
+          link.href = dataURL;
+          link.download = filename;
+          link.style.display = 'none';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          showToast('保存成功 ✅');
+        } else {
+          const w = window.open('', '_blank');
+          if (w) {
+            w.document.write(
+              '<html><head><title>长按图片保存到相册</title>' +
+              '<meta name="viewport" content="width=device-width,initial-scale=1">' +
+              '<style>body{margin:0;padding:20px;background:#F5EFE3;text-align:center;font-family:sans-serif;}' +
+              'img{max-width:100%;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);}' +
+              '.tip{margin-top:16px;font-size:14px;color:#8B2E2E;}</style></head>' +
+              '<body><img src="' + dataURL + '" alt="学习卡片">' +
+              '<div class="tip">👆 长按上方图片，选择"保存到相册"</div></body></html>'
+            );
+            w.document.close();
+            showToast('请长按图片保存 ✅');
+          } else {
+            const link = document.createElement('a');
+            link.href = dataURL;
+            link.download = filename;
+            link.click();
+            showToast('保存成功 ✅');
+          }
+        }
+      }).catch(err => {
+        // 异常时也恢复样式
+        topBar.style.position = prevTopBarPos;
+        topBar.style.top = '';
+        topBar.style.left = '';
+        topBar.style.right = '';
+        captureRoot.style.maxWidth = prevMaxWidth;
+        captureRoot.style.margin = prevMargin;
+        textareaReplacements.forEach(function (ta) {
+          if (ta._replDiv && ta._replDiv.parentNode) {
+            ta._replDiv.parentNode.removeChild(ta._replDiv);
+          }
+          ta.style.display = '';
+          ta._replDiv = null;
+        });
+        unfreezeAfterCapture(document.body, styleSnap);
+        console.error('截图失败:', err);
+        showToast('保存失败，请重试');
+      });
+    }, 200);
+  }
+
+  function isMobileDevice() {
+    return /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent) ||
+           ('ontouchstart' in window && window.innerWidth < 768);
+  }
+</script>
+<!-- VERSION: 2026-08-25 修复 html2canvas 截图颜色变淡/内容缺失 -->
+
+</body>
+</html>
